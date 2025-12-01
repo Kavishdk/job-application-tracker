@@ -1,0 +1,5 @@
+{
+  "name": "JobTrack AI",
+  "description": "A smart job application tracker that uses Gemini AI to parse job descriptions and organize your interview process.",
+  "requestFramePermissions": []
+}

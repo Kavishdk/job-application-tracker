@@ -21,7 +21,7 @@ export const Dashboard: React.FC = () => {
     fetchJobs();
   }, []);
 
-  const filteredJobs = jobs.filter(job => 
+  const filteredJobs = jobs.filter(job =>
     job.company.toLowerCase().includes(search.toLowerCase()) ||
     job.role.toLowerCase().includes(search.toLowerCase())
   );
@@ -35,7 +35,10 @@ export const Dashboard: React.FC = () => {
           <p className="text-sm text-gray-500 mt-1">Track and manage your opportunities</p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            console.log("Add New Job button clicked");
+            setIsModalOpen(true);
+          }}
           className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
         >
           <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
@@ -59,22 +62,22 @@ export const Dashboard: React.FC = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="text-gray-500 text-xs font-medium uppercase">Total Applied</div>
-            <div className="text-2xl font-bold text-gray-900">{jobs.length}</div>
-         </div>
-         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="text-gray-500 text-xs font-medium uppercase">Active</div>
-            <div className="text-2xl font-bold text-blue-600">{jobs.filter(j => j.status !== 'Rejected' && j.status !== 'No Response').length}</div>
-         </div>
-         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="text-gray-500 text-xs font-medium uppercase">Interviews</div>
-            <div className="text-2xl font-bold text-orange-600">{jobs.filter(j => j.status === 'Interview').length}</div>
-         </div>
-         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="text-gray-500 text-xs font-medium uppercase">Offers</div>
-            <div className="text-2xl font-bold text-green-600">{jobs.filter(j => j.status === 'Offer').length}</div>
-         </div>
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+          <div className="text-gray-500 text-xs font-medium uppercase">Total Applied</div>
+          <div className="text-2xl font-bold text-gray-900">{jobs.length}</div>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+          <div className="text-gray-500 text-xs font-medium uppercase">Active</div>
+          <div className="text-2xl font-bold text-blue-600">{jobs.filter(j => j.status !== 'Rejected' && j.status !== 'No Response').length}</div>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+          <div className="text-gray-500 text-xs font-medium uppercase">Interviews</div>
+          <div className="text-2xl font-bold text-orange-600">{jobs.filter(j => j.status === 'Interview').length}</div>
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+          <div className="text-gray-500 text-xs font-medium uppercase">Offers</div>
+          <div className="text-2xl font-bold text-green-600">{jobs.filter(j => j.status === 'Offer').length}</div>
+        </div>
       </div>
 
       {/* List */}
@@ -85,9 +88,9 @@ export const Dashboard: React.FC = () => {
         </div>
       ) : filteredJobs.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg border border-dashed border-gray-300">
-           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-            </svg>
+          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          </svg>
           <h3 className="mt-2 text-sm font-medium text-gray-900">No jobs found</h3>
           <p className="mt-1 text-sm text-gray-500">Get started by creating a new job application.</p>
         </div>

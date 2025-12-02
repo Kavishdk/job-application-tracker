@@ -1,9 +1,6 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { ParsedJDResponse } from "../types";
 
-// Initialize the client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const modelName = "gemini-2.5-flash";
 
 const jdSchema: Schema = {
@@ -13,10 +10,10 @@ const jdSchema: Schema = {
     role: { type: Type.STRING, description: "Job title or role" },
     location: { type: Type.STRING, description: "Job location (Remote, City, etc.)" },
     salary: { type: Type.STRING, description: "Salary range or compensation details if available" },
-    skills: { 
-      type: Type.ARRAY, 
-      items: { type: Type.STRING }, 
-      description: "List of required technical skills and technologies" 
+    skills: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
+      description: "List of required technical skills and technologies"
     },
     experience: { type: Type.STRING, description: "Required years of experience or level (Junior, Senior)" },
     jobLink: { type: Type.STRING, description: "URL to the job posting if present in text" },
@@ -27,8 +24,22 @@ const jdSchema: Schema = {
   required: ["company", "role", "skills", "summary"],
 };
 
+const getAiClient = () => {
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  if (!apiKey) {
+    console.warn("VITE_GEMINI_API_KEY is missing. AI features will not work.");
+    return null;
+  }
+  return new GoogleGenAI({ apiKey });
+};
+
 export const parseJobDescription = async (rawText: string): Promise<ParsedJDResponse> => {
   try {
+    const ai = getAiClient();
+    if (!ai) {
+      throw new Error("API Key not configured. Please add VITE_GEMINI_API_KEY to your .env file.");
+    }
+
     const response = await ai.models.generateContent({
       model: modelName,
       contents: `Extract clean JSON from the following job description. If a field is not found, use an empty string or empty array.
